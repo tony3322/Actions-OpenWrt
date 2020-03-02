@@ -72,6 +72,7 @@ jobs:
       run: cd lede && ./scripts/feeds install -a
 
     - name: 载入 custom configuration
+      env:
           CONFIG_FILE: 'Newifi_D2.config'
       run: |
         [ -e files ] && mv files lede/files
