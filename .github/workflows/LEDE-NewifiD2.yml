@@ -63,7 +63,7 @@ jobs:
         sudo -E apt-get -qq clean
 
     - name: 克隆 source code
-      run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH lede
+      run: git clone https://github.com/coolsnowwolf/lede lede
 
     - name: 更新 feeds
       run: cd lede && ./scripts/feeds update -a
