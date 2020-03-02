@@ -4,7 +4,7 @@
 # Lisence: MIT
 # Author: P3TERX
 # Blog: https://p3terx.com/
-# cd openwrt && make menuconfig
+# cd lede && make menuconfig
 #=================================================
 
 name: Build-OpenWrt-NewifiD2
@@ -63,31 +63,32 @@ jobs:
         sudo -E apt-get -qq clean
 
     - name: 克隆 source code
-      run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+      run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH lede
 
     - name: 更新 feeds
-      run: cd openwrt && ./scripts/feeds update -a
+      run: cd lede && ./scripts/feeds update -a
 
     - name: 安装 feeds
-      run: cd openwrt && ./scripts/feeds install -a
+      run: cd lede && ./scripts/feeds install -a
 
     - name: 载入 custom configuration
+          CONFIG_FILE: 'Newifi_D2.config'
       run: |
-        [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        [ -e files ] && mv files lede/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
         chmod +x $DIY_SH
-        cd openwrt
+        cd lede
         ../$DIY_SH
         make defconfig
 
     - name: SSH 连接到 Actions
-      uses: P3TERX/debugger-action@master
-      if: env.SSH_ACTIONS == 'true'
+    -  uses: P3TERX/debugger-action@master
+    -  if: env.SSH_ACTIONS == 'true'
 
     - name: 下载 package
       id: package
       run: |
-        cd openwrt
+        cd lede
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
@@ -95,7 +96,7 @@ jobs:
     - name: 完成 the firmware
       id: compile
       run: |
-        cd openwrt
+        cd lede
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
         echo "::set-output name=status::success"
@@ -104,14 +105,14 @@ jobs:
       uses: actions/upload-artifact@master
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
-        name: OpenWrt_directory
-        path: openwrt/bin
+        name: lede_directory
+        path: lede/bin
 
     - name: Organize files
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
+        cd lede/bin/targets/*/*
         rm -rf packages
         echo "::set-env name=FIRMWARE::$(pwd)"
         echo "::set-output name=status::success"
@@ -120,5 +121,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: OpenWrt_firmware
+        name: lede_firmware
         path: ${{ env.FIRMWARE }}
