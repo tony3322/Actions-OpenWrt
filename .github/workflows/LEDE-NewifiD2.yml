@@ -73,7 +73,7 @@ jobs:
 
     - name: 载入 custom configuration
       env:
-          CONFIG_FILE: 'Newifi_D2.config'
+        CONFIG_FILE: 'Newifi_D2.config'
       run: |
         [ -e files ] && mv files lede/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
