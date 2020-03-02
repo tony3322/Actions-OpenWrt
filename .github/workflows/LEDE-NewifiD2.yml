@@ -82,10 +82,6 @@ jobs:
         ../$DIY_SH
         make defconfig
 
-    - name: SSH 连接到 Actions
-    -  uses: P3TERX/debugger-action@master
-    -  if: env.SSH_ACTIONS == 'true'
-
     - name: 下载 package
       id: package
       run: |
