@@ -7,7 +7,7 @@
 # cd lede && make menuconfig
 #=================================================
 
-name: Build-OpenWrt-NewifiD2
+name: Build-LEDE-NewifiD2
 
 on:
   release:
