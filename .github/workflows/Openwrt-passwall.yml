@@ -7,7 +7,7 @@
 # cd openwrt && make menuconfig
 #=================================================
 
-name: Build-OpenWrt-NewifiD2
+name: Build-OpenWrt
 
 on:
   release:
