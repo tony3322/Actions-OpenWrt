@@ -7,7 +7,7 @@
 # cd openwrt && make menuconfig
 #=================================================
 
-name: Build-OpenWrt
+name: Build-OpenWrt 
 
 on:
   release:
