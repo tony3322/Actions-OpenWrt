@@ -5,6 +5,7 @@
 # Author: P3TERX
 # Blog: https://p3terx.com/
 # cd lede && make menuconfig
+# modify by tony3322
 #=================================================
 
 name: Build-LEDE--NewifiD2
@@ -64,12 +65,27 @@ jobs:
 
     - name: 克隆 source code
       run: git clone https://github.com/coolsnowwolf/lede lede
+    
+    - name: 加入 Passwall
+      run: cd openwrt && echo -e "src-git lienol  https://github.com/tony3322/lienol-openwrt-package" >> feeds.conf.default   
 
     - name: 更新 feeds
       run: cd lede && ./scripts/feeds update -a
 
     - name: 安装 feeds
       run: cd lede && ./scripts/feeds install -a
+
+    - name: 加入 smartdns  
+      run: cd openwrt/feeds/packages/net &&  git clone https://github.com/tony3322/smartdns.git
+    
+    - name: install smartdns
+      run: cd openwrt && ./scripts/feeds install package -a
+  
+    - name: 加入 luci-app-smartdns  
+      run: cd openwrt/feeds/luci/applications  &&  git clone https://github.com/tony3322/luci-app-smartdns.git
+    
+    - name: install luci-app-smartdns
+      run: cd openwrt && ./scripts/feeds install luci -a
 
     - name: 载入 custom configuration
       env:
