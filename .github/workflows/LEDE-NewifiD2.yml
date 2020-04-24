@@ -7,7 +7,7 @@
 # cd lede && make menuconfig
 #=================================================
 
-name: Build-LEDE-NewifiD2-20200319
+name: Build-LEDE--NewifiD2
 
 on:
   release:
