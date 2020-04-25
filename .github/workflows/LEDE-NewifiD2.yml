@@ -4,8 +4,10 @@
 # Lisence: MIT
 # Author: P3TERX
 # Blog: https://p3terx.com/
-# add passwall && smartdns
+# add passwall
 # modify by tony3322
+#make  packages/smartdns/compile V=99
+#make  packages/luci-app-smartdns/compile V=99
 #=================================================
 
 name: Build-LEDE--NewifiD2
@@ -110,7 +112,7 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-    - name: 完成 the firmware
+    - name: 编译 the firmware
       id: compile
       run: |
         cd lede
