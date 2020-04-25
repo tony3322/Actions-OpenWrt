@@ -4,10 +4,8 @@
 # Lisence: MIT
 # Author: P3TERX
 # Blog: https://p3terx.com/
-# add passwall
+# add passwall & smartdns
 # modify by tony3322
-#make  packages/smartdns/compile V=99
-#make  packages/luci-app-smartdns/compile V=99
 #=================================================
 
 name: Build-LEDE--NewifiD2
@@ -71,23 +69,17 @@ jobs:
     - name: 加入 Passwall
       run: cd lede && echo -e "src-git lienol  https://github.com/tony3322/lienol-openwrt-package" >> feeds.conf.default   
 
+    - name: 加入 smartdns  
+      run: cd lede && git clone https://github.com/pymumu/smartdns.git package/smartdns
+      
+    - name: 加入 luci-app-smartdns
+      run: cd lede &&  git clone https://github.com/pymumu/luci-app-smartdns.git package/luci-app-smartdns
+
     - name: 更新 feeds
       run: cd lede && ./scripts/feeds update -a
 
     - name: 安装 feeds
       run: cd lede && ./scripts/feeds install -a
-
-    - name: 加入 smartdns  
-      run: cd lede/feeds/packages/net &&  git clone https://github.com/tony3322/smartdns.git
-    
-    - name: install smartdns
-      run: cd lede && ./scripts/feeds install package -a
-  
-    - name: 加入 luci-app-smartdns  
-      run: cd lede/feeds/luci/applications  &&  git clone https://github.com/tony3322/luci-app-smartdns.git
-    
-    - name: install luci-app-smartdns
-      run: cd lede && ./scripts/feeds install luci -a
 
     - name: 载入 custom configuration
       env:
