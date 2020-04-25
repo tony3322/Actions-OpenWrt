@@ -70,10 +70,10 @@ jobs:
       run: cd lede && echo -e "src-git lienol  https://github.com/tony3322/lienol-openwrt-package" >> feeds.conf.default   
 
     - name: 加入 smartdns  
-      run: cd lede && git clone https://github.com/pymumu/smartdns.git package/smartdns
+      run: cd lede && git clone https://github.com/ujincn/smartdns.git package/smartdns
       
     - name: 加入 luci-app-smartdns
-      run: cd lede &&  git clone https://github.com/pymumu/luci-app-smartdns.git package/luci-app-smartdns
+      run: cd lede &&  git clone https://github.com/ujincn/luci-app-smartdns-compat.git package/luci-app-smartdns-compat
 
     - name: 更新 feeds
       run: cd lede && ./scripts/feeds update -a
