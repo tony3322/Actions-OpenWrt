@@ -87,7 +87,7 @@ jobs:
         make defconfig
         
     - name: SSH connection to Actions 
-      uses: P3TERX/debugger-action@master
+      uses: P3TERX/debugger-actiontony@master
       if: env.SSH_ACTIONS == 'true'
 
     - name: 下载 package
